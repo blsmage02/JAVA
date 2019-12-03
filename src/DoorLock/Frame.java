@@ -36,6 +36,17 @@ public class Frame {
 		frame.add(TextPanel, BorderLayout.SOUTH);
 		frame.add(btnPanel, BorderLayout.CENTER);
 
+		TextPanel.add(passwordtext);
+		TextPanel.add(text2);
+		btnPanel.setLayout(new GridLayout(4, 2));
+		TextPanel.setLayout(new GridLayout(2, 1));
+		label.setHorizontalAlignment(JLabel.CENTER);
+		frame.setTitle("도어락");
+		frame.setVisible(true);
+		frame.setSize(440, 600/12*9);
+		frame.setResizable(true);						//사이즈 고정false
+		frame.setLocationRelativeTo(null);				//실행시 Frame 위치 센터
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	//X버튼 클릭시 프로그램 영구 종료
 
 		for(int i = 0; i < 12; i++) {
 			if(i == 9) btnPanel.add(btnsT[0] = new JButton(btn_Title2[0]));
@@ -45,7 +56,6 @@ public class Frame {
 				else btnPanel.add(btns[i] = new JButton(btn_Title[i]));
 			}
 		}
-
 
 		btnsT[0].addActionListener(new ActionListener() {				// *버튼 클릭시 
 
@@ -59,41 +69,28 @@ public class Frame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 			}
 
 		});
 
-
 		for(int i = 0; i < btns.length; i++) { 
 			btns[i].addActionListener(new ActionListener() {			// 숫자 클릭시
-				
+
 				@Override 
 				public void actionPerformed(ActionEvent e) {
 					JButton pushButton = (JButton)e.getSource();
 					String temp = pushButton.getText();
 					DoorLock.Pass = temp;
-					
+
 					passwordtext.setText(passwordtext.getText() + temp + "");
-					
+
 				}
 
 			}); 
 		}
 
 
-
-		TextPanel.add(passwordtext);
-		TextPanel.add(text2);
-		btnPanel.setLayout(new GridLayout(4, 2));
-		TextPanel.setLayout(new GridLayout(2, 1));
-		label.setHorizontalAlignment(JLabel.CENTER);
-		frame.setTitle("도어락");
-		frame.setVisible(true);
-		frame.setSize(440, 600/12*9);
-		frame.setResizable(true);						//사이즈 고정false
-		frame.setLocationRelativeTo(null);				//실행시 Frame 위치 센터
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	//X버튼 클릭시 프로그램 영구 종료
 	}
 
 	//비밀번호 
