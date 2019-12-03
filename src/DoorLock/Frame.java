@@ -59,8 +59,7 @@ public class Frame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-
+				
 			}
 
 		});
@@ -68,10 +67,15 @@ public class Frame {
 
 		for(int i = 0; i < btns.length; i++) { 
 			btns[i].addActionListener(new ActionListener() {			// 숫자 클릭시
-
+				
 				@Override 
 				public void actionPerformed(ActionEvent e) {
-
+					JButton pushButton = (JButton)e.getSource();
+					String temp = pushButton.getText();
+					DoorLock.Pass = temp;
+					
+					passwordtext.setText(passwordtext.getText() + temp + "");
+					
 				}
 
 			}); 
