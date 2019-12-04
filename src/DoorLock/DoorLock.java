@@ -8,7 +8,7 @@ public class DoorLock {
 	static String Pass = new String();
 	static String Pass1 = "1234";
 	static String Pass2 = new String();
-	static int num_count=0;
+	static int num_count = 0;
 
 
 	public static void main(String[] args) {

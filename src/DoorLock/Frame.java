@@ -4,8 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -47,6 +47,23 @@ public class Frame {
 		frame.setResizable(true);											//사이즈 고정false
 		frame.setLocationRelativeTo(null);									//실행시 Frame 위치 센터
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);				//X버튼 클릭시 프로그램 영구 종료
+
+		/*
+		 * if(DoorLock.num_count == 3) { DoorLock.num_count = 0;
+		 * 
+		 * Timer time = new Timer(); TimerTask task = new TimerTask() {
+		 * 
+		 * @Override public void run() { label.setText("뒤에 다시 시도하세요.");
+		 * 
+		 * }
+		 * 
+		 * };
+		 * 
+		 * time.schedule(task, 5000);
+		 * 
+		 * }
+		 */
+		//타이머 미완성
 
 		for(int i = 0; i < 12; i++) {
 			if(i == 9) btnPanel.add(btnsT[0] = new JButton(btn_Title2[0]));
@@ -135,6 +152,15 @@ public class Frame {
 			return String.format("잠금장치가 해제되었습니다.");
 		}
 		doorBoolean = false;
+
+		DoorLock.num_count++;
+
+		if(DoorLock.num_count == 3) {
+			DoorLock.num_count = 0;
+			return String.format("30초 뒤에 다시 시도해주세요.");			//임시방편
+		}
+		
+
 		return String.format("잘못된 번호가 입력되었습니다.");		
 
 	}
@@ -166,7 +192,7 @@ public class Frame {
 		boolean result = Pattern.matches(length, temp);
 		if(!(result)) return false;
 		 */
-		
+
 		for(int i = 0; i < shelter.length; i++) {
 			if(shelter[i].equals(shelter[i+1]) && shelter[i].equals(shelter[i+2])) {	//중복된 숫자 3회이상 불가능
 				return false;
