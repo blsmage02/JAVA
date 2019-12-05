@@ -4,8 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -47,23 +45,6 @@ public class Frame {
 		frame.setResizable(true);											//사이즈 고정false
 		frame.setLocationRelativeTo(null);									//실행시 Frame 위치 센터
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);				//X버튼 클릭시 프로그램 영구 종료
-
-		/*
-		 * if(DoorLock.num_count == 3) { DoorLock.num_count = 0;
-		 * 
-		 * Timer time = new Timer(); TimerTask task = new TimerTask() {
-		 * 
-		 * @Override public void run() { label.setText("뒤에 다시 시도하세요.");
-		 * 
-		 * }
-		 * 
-		 * };
-		 * 
-		 * time.schedule(task, 5000);
-		 * 
-		 * }
-		 */
-		//타이머 미완성
 
 		for(int i = 0; i < 12; i++) {
 			if(i == 9) btnPanel.add(btnsT[0] = new JButton(btn_Title2[0]));
@@ -109,7 +90,10 @@ public class Frame {
 						DoorLock.myPassword = DoorLock.Pass2.split("");
 						label.setText(CipheredKeypad());
 					}
-					else label.setText("입력하신 비밀번호는 취약한 암호이므로 다시 설정해주세요.");
+					else {
+						DoorLock.Pass2 = "";
+						label.setText("입력하신 비밀번호는 취약한 암호이므로 다시 설정해주세요.");
+					}
 				}
 				passwordtext.setText(""); 											// 다시 리셋
 
@@ -159,7 +143,7 @@ public class Frame {
 			DoorLock.num_count = 0;
 			return String.format("30초 뒤에 다시 시도해주세요.");			//임시방편
 		}
-		
+
 
 		return String.format("잘못된 번호가 입력되었습니다.");		
 
@@ -183,20 +167,42 @@ public class Frame {
 		String a = "";
 		String temp = String.join(a, DoorLock.Pass2);
 		String[] shelter = temp.split("");
-		Boolean run = true;
+		int[] temp2 = new int[DoorLock.Pass2.length()];
+		boolean run = true;
 		int count = 0;
+		
+		for(int i = 0; i < temp2.length; i++) {
+			try {
+				temp2[i] = Integer.parseInt(shelter[i]);
+			} catch (NumberFormatException nfe) {
+				//NOTE: write something here if you need to recover from formatting errors
+			}
+		}
 
-		if(temp.length() < 4 || temp.length() > 8) return false;						//4이상 8이하의 자릿수 확인	
-		/* 
-		String length = "\\d{4,8}";
-		boolean result = Pattern.matches(length, temp);
-		if(!(result)) return false;
-		 */
+		//4잉상 8이하의 자릿수 확인
+		if(temp2.length < 4 || temp2.length > 8) return false;
 
-		for(int i = 0; i < shelter.length; i++) {
-			if(shelter[i].equals(shelter[i+1]) && shelter[i].equals(shelter[i+2])) {	//중복된 숫자 3회이상 불가능
-				return false;
-			} //else if 4-ㄹ
+		//중복된 숫자 3회 이상 확인
+		for(int i = 0; i < temp2.length - 2; i++) {
+			if(temp2[i] == temp2[i+1] && temp2[i] == temp2[i+2]) return false;
+		}
+
+		//패턴 확인
+		if(run) {
+			//1씩 상승하거나 1씩 감소하는 패턴 확인
+			for(int i = 0; i < temp2.length - 3; i++) {
+				if(temp2[i+1] == temp2[i]+1 && temp2[i+2] == temp2[i]+2 && temp2[i+3] == temp2[i]+3) run = false;
+				else if(temp2[i+1] == temp2[i]-1 && temp2[i+2] == temp2[i]-2 && temp2[i+3] == temp2[i]-3) run = false;
+			}
+			//+2칸 연속 패턴 확인 ex)3434
+			for(int i = 0; i < temp2.length; i++) {
+				for(int j = 0; j < temp2.length - 2; j++) {
+					if(temp2[j] == temp2[j] && temp2[j] == temp2[j+2]) count++;
+				}
+			}
+			
+			if(count >= 2) run = false;
+			return run;
 		}
 
 		return true;
