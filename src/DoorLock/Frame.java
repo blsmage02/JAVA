@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,6 +19,7 @@ public class Frame {
 	DoorLock doorLock = new DoorLock();
 	boolean doorBoolean = false;
 
+	
 	public Frame() {
 
 		final String[] btn_Title = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"};
@@ -45,6 +48,7 @@ public class Frame {
 		frame.setResizable(true);											//사이즈 고정false
 		frame.setLocationRelativeTo(null);									//실행시 Frame 위치 센터
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);				//X버튼 클릭시 프로그램 영구 종료
+
 
 		for(int i = 0; i < 12; i++) {
 			if(i == 9) btnPanel.add(btnsT[0] = new JButton(btn_Title2[0]));
@@ -95,8 +99,7 @@ public class Frame {
 						label.setText("입력하신 비밀번호는 취약한 암호이므로 다시 설정해주세요.");
 					}
 				}
-				passwordtext.setText(""); 											// 다시 리셋
-
+				passwordtext.setText(""); 
 			}
 		});
 
@@ -119,7 +122,7 @@ public class Frame {
 	public String ComparedKeypad() {									//*버튼 메소드
 
 		int count = 0;
-
+		int b=3;
 		for(int i = 0; i < DoorLock.myPassword.length; i++) {
 
 			if(DoorLock.myPassword.length != DoorLock.inputPassword.length ) break;
@@ -127,7 +130,7 @@ public class Frame {
 
 		}
 
-		for(int i = 0; i < DoorLock.inputPassword .length; i++) DoorLock.inputPassword[i] = "";
+		for(int i = 0; i < DoorLock.inputPassword .length; i++) DoorLock.inputPassword[i] = "";  // 초기화
 		DoorLock.Pass = "";
 		DoorLock.Pass1 = "";
 		DoorLock.Pass2 = "";
@@ -141,11 +144,17 @@ public class Frame {
 
 		if(DoorLock.num_count == 3) {
 			DoorLock.num_count = 0;
-			return String.format("30초 뒤에 다시 시도해주세요.");			//임시방편
+			new newWindow();
+			try {
+			      Thread.sleep(b * 1000);
+			    } catch (InterruptedException e) { }
+			
+			
+			return String.format("잘못된 번호가 입력되었습니다."+DoorLock.num_count+"번 실패하였습니다.");			
 		}
+		
 
-
-		return String.format("잘못된 번호가 입력되었습니다.");		
+		return String.format("잘못된 번호가 입력되었습니다."+DoorLock.num_count+"번 실패하였습니다.");		
 
 	}
 
@@ -153,12 +162,12 @@ public class Frame {
 
 		if(doorBoolean == false) return String.format("잠금장치 해제 후 시도해주세요.");
 
-		doorBoolean = true;
-
+		else {
 		for(int i = 0; i < DoorLock.inputPassword .length; i++) DoorLock.inputPassword[i] = "";
 		DoorLock.Pass = "";
 		DoorLock.Pass1 = "";
 		DoorLock.Pass2 = "";
+		}
 		return String.format("새로운 비밀번호가 저장되었습니다.");
 
 	}
@@ -179,7 +188,7 @@ public class Frame {
 			}
 		}
 
-		//4잉상 8이하의 자릿수 확인
+		//4이상 8이하의 자릿수 확인
 		if(temp2.length < 4 || temp2.length > 8) return false;
 
 		//중복된 숫자 3회 이상 확인
@@ -207,4 +216,22 @@ public class Frame {
 
 		return true;
 	}
+}
+
+class newWindow extends JFrame {
+    newWindow() {
+        setTitle("30초 뒤에 다시 시도해주세요.");
+      
+        
+        JPanel NewWindowContainer = new JPanel();
+        setContentPane(NewWindowContainer);
+        
+        JLabel NewLabel = new JLabel("창을 닫고 다시 시도해 주세요");
+        
+        NewWindowContainer.add(NewLabel);
+        setLocationRelativeTo(null);
+        setSize(350,50);
+        setResizable(false);
+        setVisible(true);
+    }
 }

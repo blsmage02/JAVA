@@ -13,7 +13,13 @@ public class DoorLock {
 
 	public static void main(String[] args) {
 		DoorLock.myPassword = DoorLock.Pass1.split(""); 			// myPassword에 기본 비밀번호 저장 1234
+		
 		Frame frame = new Frame();
 
 	}
 }
+
+
+	
+
+	
