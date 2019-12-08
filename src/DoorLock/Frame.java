@@ -146,7 +146,7 @@ public class Frame {
 			DoorLock.num_count = 0;
 			new newWindow();
 			try {
-			      Thread.sleep(b * 1000);
+			      Thread.sleep(b * 10000);
 			    } catch (InterruptedException e) { }
 			
 			
@@ -200,8 +200,10 @@ public class Frame {
 		if(run) {
 			//1씩 상승하거나 1씩 감소하는 패턴 확인
 			for(int i = 0; i < temp2.length - 3; i++) {
-				if(temp2[i+1] == temp2[i]+1 && temp2[i+2] == temp2[i]+2 && temp2[i+3] == temp2[i]+3) run = false;
-				else if(temp2[i+1] == temp2[i]-1 && temp2[i+2] == temp2[i]-2 && temp2[i+3] == temp2[i]-3) run = false;
+				if(temp2[i] == temp2[i] && temp2[i+1] == temp2[i]+1 && temp2[i+2] == temp2[i]+2) run = false;
+				else if(temp2[i+1] == temp2[i+1] && temp2[i+2] == temp2[i+1]+1 && temp2[i+3] == temp2[i+1]+2) run = false;
+				else if(temp2[i] == temp2[i] && temp2[i+1] == temp2[i]-1 &&temp2[i+2] == temp2[i]-2) run = false;
+				else if(temp2[i+1] == temp2[i+1] && temp2[i+2] == temp2[i+1]-1 && temp2[i+3] == temp2[i+1]-2) run = false;
 			}
 			//+2칸 연속 패턴 확인 ex)3434
 			for(int i = 0; i < temp2.length; i++) {
@@ -221,7 +223,6 @@ public class Frame {
 class newWindow extends JFrame {
     newWindow() {
         setTitle("30초 뒤에 다시 시도해주세요.");
-      
         
         JPanel NewWindowContainer = new JPanel();
         setContentPane(NewWindowContainer);
@@ -230,7 +231,7 @@ class newWindow extends JFrame {
         
         NewWindowContainer.add(NewLabel);
         setLocationRelativeTo(null);
-        setSize(350,50);
+        setSize(440, 440);
         setResizable(false);
         setVisible(true);
     }
